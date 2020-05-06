@@ -33,11 +33,15 @@ function drawLevel()
 	
 	for (let w = 0; w < map.length; w++)
 	{
-		for (let h = 0; h < map[w].length; h++)
+		for (let h = map[w].length - 1; h >= 0; h--)
 		{
 			if (map[w][h] != null)
 			{
+				ctx.globalAlpha = 1;
 				drawActor(w, h, map[w][h]);
+				ctx.globalAlpha = 0.2;
+				drawActorShadow(w, h, map[w][h]);
+				ctx.globalAlpha = 1;
 			}
 		}
 	}

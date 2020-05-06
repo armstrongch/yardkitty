@@ -30,3 +30,22 @@ function drawActor(x, y, actor)
 	);
 }
 
+function drawActorShadow(x, y, actor)
+{
+	var tileSheetX = spriteSheetPositions[actor.sprite].x;
+	var tileSheetY = spriteSheetPositions[actor.sprite].y + 1;
+	var canvasSpaceWidth = gameCanvas.width/map.length;
+	var canvasSpaceHeight = gameCanvas.height/map[0].length;
+	
+	ctx.drawImage(
+		spriteSheet,				//image
+		tileSheetX*10,				//x position on image
+		tileSheetY*10,				//y position on image
+		10,							//width on image
+		10,							//height on image
+		canvasSpaceWidth*x,			//x position on canvas
+		canvasSpaceHeight*(y + 1),	//y position on canvas
+		canvasSpaceWidth,			//width on canvas
+		canvasSpaceHeight			//height on canvas
+	);
+}
