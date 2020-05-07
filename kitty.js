@@ -39,6 +39,4 @@ function moveKitty(keycode)
 	{
 		moveActorToPositon(kittyPosition, newKittyPosition);
 	}
-	
-	drawLevel();
 }

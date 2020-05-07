@@ -58,6 +58,7 @@ function keyPress(keycode)
 		playerTurn = false;
 		moveKitty(keycode);
 		gameTurn();
+		drawLevel();
 		playerTurn = true;
 	}
 }

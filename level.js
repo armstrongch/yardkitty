@@ -4,11 +4,11 @@ var playerTurn = false;
 
 function generateMap(width, height)
 {
-	newMap = [];
+	var newMap = [];
 	
 	for (let w = 0; w < width; w++)
 	{
-		newMapRow = [];
+		var newMapRow = [];
 		for (let h = 0; h < height; h++)
 		{
 			newMapRow.push(null);
