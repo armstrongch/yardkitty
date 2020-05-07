@@ -94,8 +94,8 @@ function positionExistsAndEmpty(position)
 {
 	if ((position.x >= 0) 
 		&& (position.y >= 0) 
-		&& (position.x < map.length - 1) 
-		&& (position.y < map[0].length - 1)
+		&& (position.x < map.length) 
+		&& (position.y < map[0].length)
 		&& (map[position.x][position.y] == null))
 		{
 			return true;

@@ -8,7 +8,8 @@ var spriteSheetPositions =
 	frog:				{x:2, y:0},
 	tree:				{x:3, y:0},
 	water:				{x:4, y:0},
-	acorn:				{x:5, y:0}
+	acorn:				{x:5, y:0},
+	fly:				{x:6, y:0}
 }
 
 function drawActor(x, y, actor)
