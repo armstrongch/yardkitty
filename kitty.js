@@ -37,6 +37,6 @@ function moveKitty(keycode)
 	
 	if (map[newKittyPosition.x][newKittyPosition.y] == null)
 	{
-		moveActorToPositon(kittyPosition, newKittyPosition);
+		moveActorToPosition(kittyPosition, newKittyPosition);
 	}
 }

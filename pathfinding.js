@@ -57,7 +57,7 @@ var findShortestPath = function(startCoordinates, grid) {
   }
 
   // No valid path found
-  return false;
+  return ["False"];
 
 };
 
@@ -123,7 +123,7 @@ var exploreInDirection = function(currentLocation, direction, grid) {
   return newLocation;
 };
 
-function stepTowardsNearestActorOfType(currentPosition, targetActorType)
+function stepTowardsNearestActorOfType(currentPosition, targetActorType, backupPosition)
 {
 	var pf_map = [];
 	for (let w = 0; w < map.length; w++)
@@ -150,6 +150,7 @@ function stepTowardsNearestActorOfType(currentPosition, targetActorType)
 		}
 		pf_map.push(pf_row);
 	}
+	
 	var shortestPath = findShortestPath([currentPosition.x, currentPosition.y], pf_map);
 	console.log(shortestPath);
 	var firstStep = shortestPath[0];
@@ -168,6 +169,8 @@ function stepTowardsNearestActorOfType(currentPosition, targetActorType)
 		case "West":
 			newPosition.y--;
 			break;
+		default:
+			return backupPosition
 	}
 	return newPosition;
 }

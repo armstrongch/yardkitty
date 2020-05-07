@@ -20,7 +20,7 @@ function createActor(type)
 				if (adjacentEmptyPositions.length > 0)
 				{
 					adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
-					moveActorToPositon(currentPosition, adjacentEmptyPositions[0]);
+					moveActorToPosition(currentPosition, adjacentEmptyPositions[0]);
 				}
 			}
 			break;
@@ -36,11 +36,11 @@ function createActor(type)
 					var acornInstances = getAllInstancesOfActorType("acorn");
 					if (acornInstances.length == 0)
 					{
-						moveActorToPositon(currentPosition, adjacentEmptyPositions[0]);
+						moveActorToPosition(currentPosition, adjacentEmptyPositions[0]);
 					}
 					else
 					{
-						moveActorToPositon(currentPosition, stepTowardsNearestActorOfType(currentPosition, "acorn"));
+						moveActorToPosition(currentPosition, stepTowardsNearestActorOfType(currentPosition, "acorn", adjacentEmptyPositions[0]));
 					}
 				}
 			}
@@ -111,8 +111,10 @@ function getActorPositionByActorId(actorId)
 	return {x: -1, y:-1};
 }
 
-function moveActorToPositon(oldPosition, newPosition)
+function moveActorToPosition(oldPosition, newPosition)
 {
+	console.log("Old Postion (x: " + oldPosition.x + ", y:" + oldPosition.y + ")");
+	console.log("New Postion (x: " + newPosition.x + ", y:" + newPosition.y + ")");
 	var actorToMove = map[oldPosition.x][oldPosition.y];
 	map[newPosition.x][newPosition.y] = actorToMove;
 	map[oldPosition.x][oldPosition.y] = null;
