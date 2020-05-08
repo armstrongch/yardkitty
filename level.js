@@ -24,6 +24,9 @@ function setUpLevel(width, height)
 	map[6][5] = createActor("kitty");
 	map[3][2] = createActor("squirrel");
 	map[3][5] = createActor("frog");
+	map[8][6] = createActor("duck");
+	map[9][3] = createActor("hive");
+	map[10][2] = createActor("tree");
 	
 	map[1][1] = createActor("tree");
 	map[2][2] = createActor("tree");
@@ -34,6 +37,8 @@ function setUpLevel(width, height)
 	map[3][6] = createActor("water");
 	map[1][7] = createActor("water");
 	map[2][7] = createActor("water");
+
+	weatherCounter = Math.floor(Math.random()*maxWeatherCounter);
 	
 	playerTurn = true;
 }
