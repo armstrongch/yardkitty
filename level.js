@@ -66,33 +66,50 @@ function gameTurn()
 	}
 }
 
-function getEmptyAdjacentPositions(currentPosition)
+function getEmptyAdjacentPositions(currentPosition, typeToInclude)
 {
 	var potentialPositions = [];
 	var currentX = currentPosition.x;
 	var currentY = currentPosition.y;
 	
-	if (positionExistsAndEmpty({x: currentX + 1, y: currentY}))
+	if ((positionExistsAndEmpty({x: currentX + 1, y: currentY})) || actorTypeAtPosition({x: currentX + 1, y: currentY}, typeToInclude))
 	{
 		potentialPositions.push({x: currentX + 1, y: currentY})
 	}
 	
-	if (positionExistsAndEmpty({x: currentX - 1, y: currentY}))
+	if ((positionExistsAndEmpty({x: currentX - 1, y: currentY})) || actorTypeAtPosition({x: currentX - 1, y: currentY}, typeToInclude))
 	{
 		potentialPositions.push({x: currentX - 1, y: currentY})
 	}
 	
-	if (positionExistsAndEmpty({x: currentX, y: currentY + 1}))
+	if ((positionExistsAndEmpty({x: currentX, y: currentY + 1})) || actorTypeAtPosition({x: currentX, y: currentY + 1}, typeToInclude))
 	{
 		potentialPositions.push({x: currentX, y: currentY + 1})
 	}
 	
-	if (positionExistsAndEmpty({x: currentX, y: currentY - 1}))
+	if ((positionExistsAndEmpty({x: currentX, y: currentY - 1})) || actorTypeAtPosition({x: currentX, y: currentY - 1}, typeToInclude))
 	{
 		potentialPositions.push({x: currentX, y: currentY - 1})
 	}
 	
 	return potentialPositions;
+}
+
+function actorTypeAtPosition(position, type)
+{
+	if ((position.x >= 0) 
+		&& (position.y >= 0) 
+		&& (position.x < map.length) 
+		&& (position.y < map[0].length)
+		&& (map[position.x][position.y] != null)
+		&& (map[position.x][position.y].type == type))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 }
 
 function positionExistsAndEmpty(position)
@@ -109,4 +126,22 @@ function positionExistsAndEmpty(position)
 		{
 			return false;
 		}
+}
+
+function positionContainsFlower(position)
+{
+	var flowerCounter = 1;
+	
+	for (let w = 0; w < map.length; w++)
+	{
+		for (let h = map[w].length - 1; h >= 0; h--)
+		{
+			flowerCounter++;
+			if ((flowerCounter % 7 == 0) && (w == position.x) && (h == position.y))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }

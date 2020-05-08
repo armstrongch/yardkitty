@@ -81,6 +81,8 @@ function drawLevel()
 		drawActorShadow(weatherActors[i].x, weatherActors[i].y, {sprite: weatherActors[i].sprite});
 		ctx.globalAlpha = 1;
 	}
+	
+	printStats();
 }
 
 function keyPress(keycode)

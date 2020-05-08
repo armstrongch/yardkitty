@@ -25,7 +25,7 @@ function createActor(type)
 				if ((this.counter == 1) && (allPuddles.length < 6))
 				{
 					
-					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition);
+					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition, "noType");
 					if (adjacentEmptyPositions.length > 0)
 					{
 						adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
@@ -59,7 +59,7 @@ function createActor(type)
 				{
 					this.counter = 0;
 					var currentPosition = getActorPositionByActorId(this.actorId);
-					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition);
+					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition, "noType");
 					if (adjacentEmptyPositions.length > 0)
 					{
 						adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
@@ -74,7 +74,7 @@ function createActor(type)
 				if (autoplay)
 				{
 					var currentPosition = getActorPositionByActorId(this.actorId);
-					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition);
+					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition, "noType");
 					if (adjacentEmptyPositions.length > 0)
 					{
 						adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
@@ -89,7 +89,16 @@ function createActor(type)
 			break;
 		case "duck":
 			newActor.turnFunction = function() { 
-				huntForActorType_withSecondary_OrMoveRandomIfNotExists(this.actorId, "worm", "fly"); }
+				var allWorms = getAllInstancesOfActorType("worm");
+				if (allWorms.length > 0)
+				{
+					huntForActorType_OrMoveRandomIfNotExists(this.actorId, "worm", true);
+				}
+				else
+				{
+					huntForActorType_OrMoveRandomIfNotExists(this.actorId, "fly", true);
+				}
+			}
 			break;
 		case "squirrel":
 			newActor.turnFunction = function() { 
@@ -101,6 +110,12 @@ function createActor(type)
 			
 			newActor.turnFunction = function() 
 			{ 
+				var currentPosition = getActorPositionByActorId(this.actorId);
+				if (positionContainsFlower(currentPosition))
+				{
+					stats[3][1]++;
+				}
+				
 				if (this.counter > this.maxCounter)
 				{
 					huntForActorType_OrMoveRandomIfNotExists(this.actorId, "hive", false);
@@ -108,8 +123,8 @@ function createActor(type)
 				else
 				{
 					this.counter++;
-					var currentPosition = getActorPositionByActorId(this.actorId);
-					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition);
+					
+					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition, "noType");
 					if (adjacentEmptyPositions.length > 0)
 					{
 						adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
@@ -129,7 +144,7 @@ function createActor(type)
 				{
 					this.counter = 0;
 					var currentPosition = getActorPositionByActorId(this.actorId);
-					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition);
+					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition, "noType");
 					if (adjacentEmptyPositions.length > 0)
 					{
 						adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
@@ -149,7 +164,7 @@ function createActor(type)
 				{
 					this.counter = 0;
 					var currentPosition = getActorPositionByActorId(this.actorId);
-					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition);
+					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition, "noType");
 					if (adjacentEmptyPositions.length > 0)
 					{
 						adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
@@ -171,7 +186,7 @@ function createActor(type)
 				{
 					this.counter = 0;
 					var currentPosition = getActorPositionByActorId(this.actorId);
-					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition);
+					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition, "noType");
 					if (adjacentEmptyPositions.length > 0)
 					{
 						adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
@@ -188,41 +203,10 @@ function createActor(type)
 	return newActor;
 }
 
-function huntForActorType_withSecondary_OrMoveRandomIfNotExists(actorId, actorType, secondChoiceActorType)
-{
-	var currentPosition = getActorPositionByActorId(actorId);
-	var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition);
-	if (adjacentEmptyPositions.length > 0)
-	{
-		adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
-		
-		var acornInstances = getAllInstancesOfActorType(actorType);
-		if (acornInstances.length == 0)
-		{
-			huntForActorType_OrMoveRandomIfNotExists(actorId, secondChoiceActorType, true);
-		}
-		else
-		{
-			moveActorToPosition(currentPosition, stepTowardsNearestActorOfType(currentPosition, actorType, adjacentEmptyPositions[0]));
-		}
-	}
-}
-
-function huntForPosition(actorId, targetPosition)
-{
-	var currentPosition = getActorPositionByActorId(actorId);
-	var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition);
-	if (adjacentEmptyPositions.length > 0)
-	{
-		adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
-		moveActorToPosition(currentPosition, stepTowardsPosition(currentPosition, targetPosition, adjacentEmptyPositions[0]));
-	}
-}
-
 function huntForActorType_OrMoveRandomIfNotExists(actorId, actorType, hunterSurvives)
 {
 	var currentPosition = getActorPositionByActorId(actorId);
-	var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition);
+	var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition, actorType);
 	if (adjacentEmptyPositions.length > 0)
 	{
 		adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
@@ -243,6 +227,21 @@ function huntForActorType_OrMoveRandomIfNotExists(actorId, actorType, hunterSurv
 			}
 			else
 			{
+				if ((map[targetPosition.x][targetPosition.y] != null) 
+					&& (map[targetPosition.x][targetPosition.y].type == "acorn"))
+				{
+					stats[0][1]++;
+				}
+				else if ((map[targetPosition.x][targetPosition.y] != null) 
+					&& (map[targetPosition.x][targetPosition.y].type == "fly"))
+				{
+					stats[1][1]++;
+				}
+				else if ((map[targetPosition.x][targetPosition.y] != null) 
+					&& (map[targetPosition.x][targetPosition.y].type == "worm"))
+				{
+					stats[2][1]++;
+				}
 				moveActorToPosition(currentPosition, targetPosition);
 			}
 		}

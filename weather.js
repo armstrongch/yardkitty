@@ -51,6 +51,7 @@ function generateWeather()
 	switch(randomWeather)
 	{
 		case "rain":
+			stats[4][1]++;
 			var startingEdge = Math.floor(Math.random()*4);
 			
 			var rainActor = 
