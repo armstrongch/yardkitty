@@ -6,6 +6,7 @@ var down = false;
 var left = false;
 var right = false;
 var space = false;
+var autoplay = false;
 
 var grassColor = '#2bce5c';
 
@@ -20,6 +21,15 @@ function loadPage()
 
 	setUpLevel(12, 9);
 	drawLevel();
+	
+	setInterval(function()
+	{
+		autoplay = $('#autoplayswitch').prop("checked");
+		if (autoplay)
+		{
+			fullGameLoop();
+		}
+	}, 225);
 }
 
 function drawLevel()
@@ -75,19 +85,24 @@ function drawLevel()
 
 function keyPress(keycode)
 {
-	if ((playerTurn) && 
-	((keycode == "ArrowUp") || 
-	(keycode == "ArrowDown") || 
-	(keycode == "ArrowLeft") || 
-	(keycode == "ArrowRight")))
+	if ((!autoplay) && (playerTurn) && 
+		((keycode == "ArrowUp") || 
+		(keycode == "ArrowDown") || 
+		(keycode == "ArrowLeft") || 
+		(keycode == "ArrowRight")))
 	{
 		playerTurn = false;
 		moveKitty(keycode);
-		gameTurn();
-		weatherTurn();
-		drawLevel();
+		fullGameLoop();
 		playerTurn = true;
 	}
+}
+
+function fullGameLoop()
+{
+	gameTurn();
+	weatherTurn();
+	drawLevel();
 }
 
 function keyRelease(keycode)

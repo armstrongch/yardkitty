@@ -68,6 +68,21 @@ function createActor(type)
 				}
 			}
 			break;
+		case "kitty":
+			newActor.turnFunction = function() 
+			{
+				if (autoplay)
+				{
+					var currentPosition = getActorPositionByActorId(this.actorId);
+					var adjacentEmptyPositions = getEmptyAdjacentPositions(currentPosition);
+					if (adjacentEmptyPositions.length > 0)
+					{
+						adjacentEmptyPositions = shuffle(adjacentEmptyPositions);
+						moveActorToPosition(currentPosition, adjacentEmptyPositions[0]);
+					}
+				}
+			}
+			break;
 		case "frog":
 			newActor.turnFunction = function() { 
 				huntForActorType_OrMoveRandomIfNotExists(this.actorId, "fly", true); }
