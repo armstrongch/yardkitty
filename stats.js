@@ -1,18 +1,36 @@
-var stats = 
+var statNames = 
 [
-	["Acorns Eaten", 0],		//0
-	["Flies Eaten", 0],			//1
-	["Worms Eaten", 0],			//2
-	["Flowers Pollinated", 0],	//3
-	["Thunderstorms", 0]		//4
-];
+	"totalTurns",
+	"acornsEaten",
+	"oldestAcorn",
+	"fliesEaten",
+	"oldestFly",
+	"wormsEaten",
+	"oldestWorm",
+	"flowersPollinated",
+	"rainstormsWeathered"
+]
+
+var stats = 
+{
+	totalTurns: { Description:"Total Turns", Value: 0 },
+	acornsEaten: { Description:"Acorns Eaten", Value: 0 },
+	oldestAcorn: { Description:"Oldest Acorn", Value: 0 },
+	fliesEaten: { Description:"Flies Eaten", Value: 0 },
+	oldestFly: { Description:"Oldest Fly", Value: 0 },
+	wormsEaten: { Description:"Worms Eaten", Value: 0 },
+	oldestWorm: { Description:"Oldest Worm", Value: 0 },
+	flowersPollinated: { Description:"Flowers Pollinated", Value: 0 },
+	rainstormsWeathered: { Description:"Rainstorms Weathered", Value: 0 }
+};
 
 function printStats()
 {
 	var statsHTML = "";
-	for (let i = 0; i < stats.length; i++)
+	for (let i = 0; i < statNames.length; i++)
 	{
-		statsHTML += "<p>" + stats[i][0] + ": " + stats[i][1] + "</p>";
+		var stat = stats[statNames[i]];
+		statsHTML += "<p>" + stat.Description + ": " + stat.Value + "</p>";
 	}
 	$('#statsDiv').html(statsHTML);
 }

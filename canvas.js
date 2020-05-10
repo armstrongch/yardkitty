@@ -16,8 +16,8 @@ function loadPage()
 	gameCanvas.width = 640;
 	gameCanvas.height = 480;
 	
-	document.addEventListener('keydown', (e) => { keyPress(e.code) } );
-	document.addEventListener('keyup', (e) => { keyRelease(e.code) } );
+	document.addEventListener('keydown', (e) => { e.preventDefault(); keyPress(e.code) } );
+	document.addEventListener('keyup', (e) => { e.preventDefault(); keyRelease(e.code) } );
 
 	setUpLevel(12, 9);
 	drawLevel();
@@ -105,6 +105,7 @@ function fullGameLoop()
 	gameTurn();
 	weatherTurn();
 	drawLevel();
+	stats["totalTurns"].Value++;
 }
 
 function keyRelease(keycode)

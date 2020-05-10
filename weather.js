@@ -51,7 +51,7 @@ function generateWeather()
 	switch(randomWeather)
 	{
 		case "rain":
-			stats[4][1]++;
+			stats["rainstormsWeathered"].Value++;
 			var startingEdge = Math.floor(Math.random()*4);
 			
 			var rainActor = 

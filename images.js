@@ -15,7 +15,8 @@ var spriteSheetPositions =
 	duck: 				{x:1, y:2},
 	hive: 				{x:2, y:2},
 	bee: 				{x:3, y:2},
-	flower: 			{x:4, y:2}
+	flower: 			{x:4, y:2},
+	moose:				{x: 5, y:2}
 }
 
 function drawActor(x, y, actor)

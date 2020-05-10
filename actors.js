@@ -51,9 +51,19 @@ function createActor(type)
 		case "fly":
 			newActor.counter = 0;
 			newActor.maxCounter = 2;
-			
+			newActor.lifespan = 0;
 			newActor.turnFunction = function() 
 			{
+				this.lifespan++;
+				if ((this.type == "fly") && (this.lifespan > stats["oldestFly"].Value))
+				{
+					stats["oldestFly"].Value = this.lifespan;
+				}
+				else if ((this.type == "worm") && (this.lifespan > stats["oldestWorm"].Value))
+				{
+					stats["oldestWorm"].Value = this.lifespan;
+				}
+				
 				this.counter++
 				if (this.counter >= this.maxCounter)
 				{
@@ -113,7 +123,7 @@ function createActor(type)
 				var currentPosition = getActorPositionByActorId(this.actorId);
 				if (positionContainsFlower(currentPosition))
 				{
-					stats[3][1]++;
+					stats["flowersPollinated"].Value++;
 				}
 				
 				if (this.counter > this.maxCounter)
@@ -195,6 +205,18 @@ function createActor(type)
 				}
 			}
 			break;
+		case "acorn":
+			newActor.lifespan = 0;
+			
+			newActor.turnFunction = function() 
+			{
+				this.lifespan++;
+				if (this.lifespan > stats["oldestAcorn"].Value)
+				{
+					stats["oldestAcorn"].Value = this.lifespan;
+				}
+			}
+			break;
 		default:
 			newActor.turnFunction = function() {console.log("Default move function.");};
 			break;
@@ -230,17 +252,17 @@ function huntForActorType_OrMoveRandomIfNotExists(actorId, actorType, hunterSurv
 				if ((map[targetPosition.x][targetPosition.y] != null) 
 					&& (map[targetPosition.x][targetPosition.y].type == "acorn"))
 				{
-					stats[0][1]++;
+					stats["acornsEaten"].Value++;
 				}
 				else if ((map[targetPosition.x][targetPosition.y] != null) 
 					&& (map[targetPosition.x][targetPosition.y].type == "fly"))
 				{
-					stats[1][1]++;
+					stats["fliesEaten"].Value++;
 				}
 				else if ((map[targetPosition.x][targetPosition.y] != null) 
 					&& (map[targetPosition.x][targetPosition.y].type == "worm"))
 				{
-					stats[2][1]++;
+					stats["wormsEaten"].Value++;
 				}
 				moveActorToPosition(currentPosition, targetPosition);
 			}
